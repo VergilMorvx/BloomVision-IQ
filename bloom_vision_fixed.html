@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloom Vision - Iraq Regions</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+  body { margin: 0; font-family: 'Poppins', sans-serif; }
+  #map { height: 100vh; width: 100%; }
+  .leaflet-popup-content { font-size: 14px; line-height: 1.4; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+// Iraq bloom regions data with fixed visible colors
+const regions = [
+  { name: "Zagros Mountains (Sulaymaniyah)", lat: 35.56, lon: 45.43, bloom: "March - April", temp: "12–18°C", humidity: "40–55%", color: "#FF1493", source: "https://www.oneearth.org/ecoregions/zagros-mountains-forest-steppe/" },
+  { name: "Upper Mesopotamian / Jazira (Mosul)", lat: 36.34, lon: 43.13, bloom: "February - April", temp: "14–22°C", humidity: "35–55%", color: "#FF8C00", source: "https://en.wikipedia.org/wiki/List_of_ecoregions_in_Iraq" },
+  { name: "Tigris–Euphrates Plain (Baghdad)", lat: 33.32, lon: 44.37, bloom: "March - May", temp: "18–25°C", humidity: "60–75%", color: "#32CD32", source: "https://www.fao.org/4/i2877e/i2877e.pdf" },
+  { name: "Mesopotamian Marshes (Al-Jubayish)", lat: 31.95, lon: 46.12, bloom: "Spring - Summer", temp: "20–28°C", humidity: "50–80%", color: "#00CED1", source: "https://whc.unesco.org/en/list/1481/" },
+  { name: "Mesopotamian Shrub Desert (Ramadi)", lat: 33.42, lon: 43.30, bloom: "February - April (after rain)", temp: "15–25°C", humidity: "20–40%", color: "#FFD700", source: "https://www.oneearth.org/ecoregions/mesopotamian-shrub-desert/" },
+  { name: "Coastal / Persian Gulf (Basra)", lat: 30.51, lon: 47.78, bloom: "Spring - Early Summer", temp: "22–28°C", humidity: "20–50%", color: "#FF4500", source: "https://en.wikipedia.org/wiki/List_of_ecoregions_in_Iraq" }
+];
+
+const map = L.map("map").setView([33.3, 44.4], 6);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: "Map data © OpenStreetMap contributors"
+}).addTo(map);
+
+regions.forEach(r => {
+  const marker = L.circleMarker([r.lat, r.lon], {
+    radius: 12,
+    color: r.color,
+    fillColor: r.color,
+    fillOpacity: 0.9
+  }).addTo(map);
+
+  marker.bindPopup(`
+    <b>${r.name}</b><br>
+    🌸 Bloom: ${r.bloom}<br>
+    🌡️ Temp: ${r.temp}<br>
+    💧 Humidity: ${r.humidity}<br>
+    <a href="${r.source}" target="_blank">Source</a>
+  `);
+});
+</script>
+</body>
+</html>
